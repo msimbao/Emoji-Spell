@@ -82,7 +82,7 @@ export default function Index() {
       } else {
         setShowEndScreen(true)
 
-        if (numberCorrect > 12){
+        if ((numberCorrect/total) > 0.7){
           playFinalSound(true)
           setCurrentEmoji('🏆')
         }
