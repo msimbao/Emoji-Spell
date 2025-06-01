@@ -88,7 +88,7 @@ export default function Index() {
         }
         else{
           playFinalSound(false)
-          setCurrentEmoji('😿')
+          setCurrentEmoji('👍')
         }
       }
 
@@ -183,7 +183,7 @@ export default function Index() {
     async function playFinalSound(isCorrect) {
     const file = isCorrect
       ? require('@/assets/success.mp3')
-      : require('@/assets/fail.mp3');
+      : require('@/assets/failure.mp3');
 
     const { sound } = await Audio.Sound.createAsync(file, { shouldPlay: true });
 
