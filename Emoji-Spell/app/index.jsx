@@ -202,7 +202,7 @@ export default function Index() {
       ) : (
         <View style={styles.container}>
 
-          <Progress.Bar style={styles.progress} progress={currentIndex/19} color={'#ffd33d'} width={320} height={5}/>
+          <Progress.Bar style={styles.progress} progress={currentIndex/19} color={'#3e80f1'} width={320} height={20}/>
 
           <Text style={styles.emoji}>{currentEmoji}</Text>
           {/* <Text style={styles.text}>{currentWord}</Text> */}
@@ -211,8 +211,9 @@ export default function Index() {
               style={styles.input}
               onChangeText={onChangeText}
               value={text}
-              placeholder="Write Your Answer...."
+              placeholder="Write Your Answer Here...."
               placeholderTextColor="#aaa"
+              selectionColor={'white'}
             ></TextInput>
 
           <Button theme="primary" label="Play Sound" onPress={playCurrentWord} />
@@ -233,7 +234,7 @@ export default function Index() {
               <Text style={styles.title}>❌: {numberWrong}</Text>
               <Text style={styles.text}></Text>
 
-              <Button label="Reset" onPress={resetQuiz} />
+              <Button theme="quaternary" label="Reset" onPress={resetQuiz} />
           </View>
            ) : (
           <View style={styles.modalContainer}>
@@ -242,8 +243,8 @@ export default function Index() {
               <Text style={styles.text}>The correct Spelling is:</Text>
               <Text style={styles.correct}>{lastWord.toUpperCase()}</Text>
 
-          <Button label="Next" onPress={hideModal} />
-          <Button theme="primary" label="Play Sound" onPress={playLastWord} />
+          <Button theme="quaternary" label="Next" onPress={hideModal} />
+          <Button theme="tertiary" label="Play Sound" onPress={playLastWord} />
 
           </View>
            )}
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
   },
   emoji: {
     color: '#fff',
-    fontSize: 150,
+    fontSize: 130,
     margin: 5,
   },
   text: {
@@ -289,23 +290,25 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 60,
-    margin: 12,
-    borderWidth: 3,
+    margin: 5,
     padding: 10,
+    borderWidth: 1,
     width: 320,
-    borderColor: 'black',
+    borderColor: '#fff',
     color: '#fff',
-    borderRadius: 15,
+    borderRadius: 50,
     alignItems: 'center',
     textAlign: 'center',
+    // backgroundColor: '#383D6E'
   },
     modal: {
       alignItems: 'center',
       padding: 20,
       justifyContent: 'center',
-      backgroundColor: '#333333',
-      borderRadius: 15,
+      backgroundColor: '#272A49',
+      borderRadius: 30,
       margin:5,
+      // borderWidth:1,
     },
     startContainer: {
       alignItems: 'center',
@@ -318,9 +321,9 @@ const styles = StyleSheet.create({
       width:350,
     },
     progress: {
-    backgroundColor: 'black',
+    backgroundColor: '#272A49',
     borderWidth:0,
-    borderRadius:1,
+    borderRadius:50,
   },
    background: {
     position: 'absolute',

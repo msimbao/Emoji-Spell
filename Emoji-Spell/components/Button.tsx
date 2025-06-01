@@ -42,15 +42,27 @@ export default function Button({ label, theme, onPress }: Props) {
         <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
     </View>
+  ) : (theme === 'quaternary') ?
+     (
+   <View
+        style={[
+          styles.buttonContainer,
+          { borderWidth: 1, borderColor: '#fff', borderRadius: 50 },
+        ]}>
+        <Pressable style={[styles.button, { backgroundColor: '#272A49' }]} onPress={onPress}>
+          <FontAwesome name="play" size={18} color="#fff" style={styles.buttonIcon} />
+          <Text style={[styles.buttonLabel, { color: '#fff' }]}>{label}</Text>
+        </Pressable>
+      </View>
   ) : (
          <View
         style={[
           styles.buttonContainer,
-          { borderWidth: 4, borderColor: '#333', borderRadius: 18 },
+          // { borderWidth: 4, borderColor: '#333', borderRadius: 18 },
         ]}>
-        <Pressable style={[styles.button, { backgroundColor: '#ff66a1' }]} onPress={onPress}>
-          <FontAwesome name="play" size={18} color="#000" style={styles.buttonIcon} />
-          <Text style={[styles.buttonLabel, { color: '#000' }]}>{label}</Text>
+        <Pressable style={[styles.button, { backgroundColor: '#272A49' }]} onPress={onPress}>
+          <FontAwesome name="play" size={18} color="#fff" style={styles.buttonIcon} />
+          <Text style={[styles.buttonLabel, { color: '#fff' }]}>{label}</Text>
         </Pressable>
       </View>
   )
@@ -65,7 +77,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 3,
-    margin:5,
+    margin:3,
   },
   button: {
     borderRadius: 50,
