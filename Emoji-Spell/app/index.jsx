@@ -16,6 +16,8 @@ export default function Index() {
     const [currentEmoji, setCurrentEmoji] = useState();
     const [currentWord, setCurrentWord] = useState();
     const [text, onChangeText] = useState('');
+    const [total, setTotal] = useState(10);
+
 
     const [isCorrectOrWrongEmoji, setIsCorrectOrWrongEmoji] = useState('');
     const [isCorrectOrWrongWord, setIsCorrectOrWrongWord] = useState('');
@@ -65,7 +67,7 @@ export default function Index() {
           playFeedbackSound(false)
         }
 
-      if (currentIndex < 19)
+      if (currentIndex < (total-1))
       {
         generateRandomNumber()
         setCurrentIndex(currentIndex + 1)
@@ -123,10 +125,22 @@ export default function Index() {
         
     }
 
-    const startQuiz = () => {
+    const easyQuiz = () => {
         setshowStartScreen(false);
         playCurrentWord()
+        setTotal(10)
+    }
 
+    const fairQuiz = () => {
+        setshowStartScreen(false);
+        playCurrentWord()
+        setTotal(20)
+    }
+
+    const hardQuiz = () => {
+        setshowStartScreen(false);
+        playCurrentWord()
+        setTotal(30)
     }
 
     const resetQuiz = () => {
@@ -145,7 +159,7 @@ export default function Index() {
     }
 
     const genIntList = () => {
-      while (intList.length < 20){
+      while (intList.length < total){
         // generateRandomNumber()
         let randomnumber = generateRandomNumber()
 
@@ -194,15 +208,15 @@ export default function Index() {
           <Text style={styles.text}>Practice your spelling with Emojis!</Text>
           <Text style={styles.text}></Text>
 
-          <Button theme ="primary" label="EASY" onPress={startQuiz} />
-          <Button theme ="secondary" label="FAIR" onPress={startQuiz} />
-          <Button theme= "tertiary" label="HARD" onPress={startQuiz} />
+          <Button theme ="primary" label="EASY" onPress={easyQuiz} />
+          <Button theme ="secondary" label="FAIR" onPress={fairQuiz} />
+          <Button theme= "tertiary" label="HARD" onPress={hardQuiz} />
 
         </View>
       ) : (
         <View style={styles.container}>
-
-          <Progress.Bar style={styles.progress} progress={currentIndex/19} color={'#3e80f1'} width={320} height={20}/>
+          <Text style={[styles.text,{alignItems:'left'}]}>{currentIndex}/{(total)}</Text>
+          <Progress.Bar style={styles.progress} progress={currentIndex/(total-1)} color={'#3e80f1'} width={320} height={20}/>
 
           <Text style={styles.emoji}>{currentEmoji}</Text>
           {/* <Text style={styles.text}>{currentWord}</Text> */}
