@@ -5,6 +5,8 @@ import Modal from 'react-native-modal';
 import Button from '@/components/Button';
 import * as Speech from 'expo-speech';
 import { Audio } from 'expo-av';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const data = require('@/assets/data.json');
 
@@ -177,6 +179,13 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+   <LinearGradient
+        // Background Linear Gradient
+        colors={['#3b547e', '#133a94']}
+        style={styles.background}
+        start={[0, 1]} end={[1, 0]}
+
+      />
 
        {showStartScreen ? (
         <View style={styles.startContainer}>
@@ -185,7 +194,10 @@ export default function Index() {
           <Text style={styles.text}>Practice your spelling with Emojis!</Text>
           <Text style={styles.text}></Text>
 
-          <Button label="Start" onPress={startQuiz} />
+          <Button theme ="primary" label="❤️ Easy" onPress={startQuiz} />
+          <Button theme ="secondary" label="💔  Fair" onPress={startQuiz} />
+          <Button theme= "tertiary" label="🔥 Hard" onPress={startQuiz} />
+
         </View>
       ) : (
         <View style={styles.container}>
@@ -246,7 +258,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#25292e',
     alignItems: 'center',
     paddingTop: 50,
   },
@@ -260,12 +271,12 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   text: {
-    color: '#fff',
+    color: '#000',
     fontSize: 15,
     margin: 3,
   },
   title: {
-    color: '#fff',
+    color: '#000',
     fontSize: 35,
     margin:5,
     fontFamily:'Cochin',
@@ -283,7 +294,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 320,
     borderColor: 'black',
-    color: '#fff',
+    color: '#000',
     borderRadius: 15,
     alignItems: 'center',
     textAlign: 'center',
@@ -300,7 +311,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       padding: 20,
       justifyContent: 'center',
-      backgroundColor: 'black',
+      // backgroundColor: 'white',
       margin:20,
       marginTop:150,
       borderRadius:20,
@@ -310,5 +321,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     borderWidth:0,
     borderRadius:1,
+  },
+   background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
 });

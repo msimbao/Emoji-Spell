@@ -1,5 +1,7 @@
 import { StyleSheet, View, Pressable, Text } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 type Props = {
   label: string;
@@ -8,42 +10,51 @@ type Props = {
 };
 
 export default function Button({ label, theme, onPress }: Props) {
-  if (theme === 'primary') {
-    return (
+
+  return(
+  (theme === 'primary') ? (
       <View
         style={[
           styles.buttonContainer,
-          { borderWidth: 4, borderColor: '#333', borderRadius: 18 },
+          // { borderWidth: 4, borderColor: '#333', borderRadius: 18 },
         ]}>
-        <Pressable style={[styles.button, { backgroundColor: '#ffd33d' }]} onPress={onPress}>
+        <Pressable style={[styles.button, { backgroundColor: '#ff66a1' }]} onPress={onPress}>
           <FontAwesome name="play" size={18} color="#000" style={styles.buttonIcon} />
           <Text style={[styles.buttonLabel, { color: '#000' }]}>{label}</Text>
         </Pressable>
       </View>
-    );
-  }
-    else  {
-    return (
+    ) : (theme === 'secondary') ?
+       (
       <View
         style={[
-          styles.buttonContainer,
-          { borderWidth: 2, borderColor: '#ffd33d', borderRadius: 18 },
+          styles.buttonContainer
         ]}>
-        <Pressable style={[styles.button, { backgroundColor: '#000' }]} onPress={onPress}>
-          <FontAwesome name="check" size={18} color="#fff" style={styles.buttonIcon} />
+
+        <Pressable style={[styles.button, { backgroundColor: '#3e80f1' }]} onPress={onPress}>
+          {/* <FontAwesome name="check" size={18} color="#fff" style={styles.buttonIcon} /> */}
           <Text style={[styles.buttonLabel, { color: '#fff' }]}>{label}</Text>
         </Pressable>
       </View>
-    );
-  }
-
-  return (
+    ) : (theme === 'tertiary') ?
+     (
     <View style={styles.buttonContainer}>
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={[styles.button, { backgroundColor: '#ed6b73' }]} onPress={onPress}>
         <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
     </View>
-  );
+  ) : (
+         <View
+        style={[
+          styles.buttonContainer,
+          { borderWidth: 4, borderColor: '#333', borderRadius: 18 },
+        ]}>
+        <Pressable style={[styles.button, { backgroundColor: '#ff66a1' }]} onPress={onPress}>
+          <FontAwesome name="play" size={18} color="#000" style={styles.buttonIcon} />
+          <Text style={[styles.buttonLabel, { color: '#000' }]}>{label}</Text>
+        </Pressable>
+      </View>
+  )
+  )
 }
 
 const styles = StyleSheet.create({
@@ -69,6 +80,11 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
+  },
+    text: {
+    backgroundColor: 'transparent',
+    fontSize: 15,
+    color: '#fff',
   },
 });
