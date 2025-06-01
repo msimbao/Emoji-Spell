@@ -194,9 +194,9 @@ export default function Index() {
           <Text style={styles.text}>Practice your spelling with Emojis!</Text>
           <Text style={styles.text}></Text>
 
-          <Button theme ="primary" label="❤️ Easy" onPress={startQuiz} />
-          <Button theme ="secondary" label="💔  Fair" onPress={startQuiz} />
-          <Button theme= "tertiary" label="🔥 Hard" onPress={startQuiz} />
+          <Button theme ="primary" label="EASY" onPress={startQuiz} />
+          <Button theme ="secondary" label="FAIR" onPress={startQuiz} />
+          <Button theme= "tertiary" label="HARD" onPress={startQuiz} />
 
         </View>
       ) : (
@@ -271,12 +271,12 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   text: {
-    color: '#000',
+    color: '#fff',
     fontSize: 15,
     margin: 3,
   },
   title: {
-    color: '#000',
+    color: '#fff',
     fontSize: 35,
     margin:5,
     fontFamily:'Cochin',
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 320,
     borderColor: 'black',
-    color: '#000',
+    color: '#fff',
     borderRadius: 15,
     alignItems: 'center',
     textAlign: 'center',

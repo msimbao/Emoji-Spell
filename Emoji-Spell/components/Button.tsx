@@ -19,8 +19,8 @@ export default function Button({ label, theme, onPress }: Props) {
           // { borderWidth: 4, borderColor: '#333', borderRadius: 18 },
         ]}>
         <Pressable style={[styles.button, { backgroundColor: '#ff66a1' }]} onPress={onPress}>
-          <FontAwesome name="play" size={18} color="#000" style={styles.buttonIcon} />
-          <Text style={[styles.buttonLabel, { color: '#000' }]}>{label}</Text>
+          {/* <FontAwesome name="play" size={18} color="#000" style={styles.buttonIcon} /> */}
+          <Text style={[styles.buttonLabel, { color: '#fff' }]}>{label}</Text>
         </Pressable>
       </View>
     ) : (theme === 'secondary') ?
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     margin:5,
   },
   button: {
-    borderRadius: 10,
+    borderRadius: 50,
     width: '100%',
     height: '100%',
     alignItems: 'center',
