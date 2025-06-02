@@ -208,9 +208,9 @@ export default function Index() {
           <Text style={styles.text}>Practice your spelling with Emojis!</Text>
           <Text style={styles.text}></Text>
 
-          <Button theme ="primary" label="EASY" onPress={easyQuiz} />
-          <Button theme ="secondary" label="FAIR" onPress={fairQuiz} />
-          <Button theme= "tertiary" label="HARD" onPress={hardQuiz} />
+          <Button theme ="primary" label="EASY: 10 WORDS" onPress={easyQuiz} />
+          <Button theme ="secondary" label="FAIR: 20 WORDS" onPress={fairQuiz} />
+          <Button theme= "tertiary" label="HARD: 30 WORDS" onPress={hardQuiz} />
 
         </View>
       ) : (
