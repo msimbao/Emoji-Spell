@@ -6,9 +6,10 @@ import Button from '@/components/Button';
 import * as Speech from 'expo-speech';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
+import {Picker} from "@react-native-picker/picker";
 
 
-const data = require('@/assets/data.json');
+const quiz = require('@/assets/quiz.json');
 
 export default function Index() {
 
@@ -17,7 +18,7 @@ export default function Index() {
     const [currentWord, setCurrentWord] = useState();
     const [text, onChangeText] = useState('');
     const [total, setTotal] = useState(10);
-
+    const [data, setData] = useState(quiz['easy']);
 
     const [isCorrectOrWrongEmoji, setIsCorrectOrWrongEmoji] = useState('');
     const [isCorrectOrWrongWord, setIsCorrectOrWrongWord] = useState('');
@@ -33,10 +34,7 @@ export default function Index() {
     const [showEndScreen, setShowEndScreen] = useState(false);
 
     useEffect(() => {
-    genIntList();
-    setCurrentWord(data[intList[0]]['word'])
-    setCurrentEmoji(data[intList[0]]['emoji'])
-
+    setup
     }, []);
 
   // Function to generate a random number between 1 and 100
@@ -53,7 +51,7 @@ export default function Index() {
       setShowModal(true)
       setLastWord(currentWord)
 
-      if (text.toLowerCase() == currentWord.toLowerCase())
+      if (text.trim().toLowerCase() == currentWord.toLowerCase())
       {
         setNumberCorrect(numberCorrect + 1)
         setIsCorrectOrWrongEmoji('✅')
@@ -128,19 +126,29 @@ export default function Index() {
     const easyQuiz = () => {
         setshowStartScreen(false);
         playCurrentWord()
-        setTotal(10)
+        setData(quiz['easy'])
+        setup()
     }
 
     const fairQuiz = () => {
         setshowStartScreen(false);
         playCurrentWord()
-        setTotal(20)
+        setData(quiz['fair'])
+        setup()
     }
 
     const hardQuiz = () => {
         setshowStartScreen(false);
         playCurrentWord()
-        setTotal(30)
+        setData(quiz['hard'])
+        setup()
+    }
+
+    const setup = () => {
+    genIntList();
+    setCurrentWord(data[intList[0]]['word'])
+    setCurrentEmoji(data[intList[0]]['emoji'])
+
     }
 
     const resetQuiz = () => {
@@ -208,9 +216,22 @@ export default function Index() {
           <Text style={styles.text}>Practice your spelling with Emojis!</Text>
           <Text style={styles.text}></Text>
 
-          <Button theme ="primary" label="EASY: 10 WORDS" onPress={easyQuiz} />
-          <Button theme ="secondary" label="FAIR: 20 WORDS" onPress={fairQuiz} />
-          <Button theme= "tertiary" label="HARD: 30 WORDS" onPress={hardQuiz} />
+          <Picker
+          selectedValue={10}
+          style={[styles.picker,{fontSize:30,borderWidth:1,borderColor:'#fff'}]}
+          itemStyle={styles.picker}
+          mode={"dropdown"}
+          onValueChange={(itemValue) => setTotal(itemValue)}
+          prompt={'Number of Words'}
+        >
+          <Picker.Item label="10" value="10" />
+          <Picker.Item label="20" value="20" />
+          <Picker.Item label="30" value="30" />
+        </Picker>
+
+          <Button theme ="primary" label="EASY" onPress={easyQuiz} />
+          <Button theme ="secondary" label="FAIR" onPress={fairQuiz} />
+          <Button theme= "tertiary" label="HARD" onPress={hardQuiz} />
 
         </View>
       ) : (
@@ -243,7 +264,8 @@ export default function Index() {
           <View style={styles.modalContainer}>
               <Text style={styles.emoji}>{currentEmoji}</Text>
               <Text style={styles.title}>Finished!</Text>
-              <Text style={styles.text}>You got:</Text>
+              {/* <Text style={styles.text}>You got:</Text> */}
+              <Progress.Bar style={styles.score} progress={numberCorrect/(total-1)} color={'lightgreen'} width={200} height={20}/>
               <Text style={styles.title}>✅: {numberCorrect}</Text>
               <Text style={styles.title}>❌: {numberWrong}</Text>
               <Text style={styles.text}></Text>
@@ -315,6 +337,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     // backgroundColor: '#383D6E'
   },
+  picker: {
+    height: 60,
+    margin: 5,
+    padding: 10,
+    borderWidth: 1,
+    width: 320,
+    borderColor: '#000',
+    color: '#fff',
+    borderRadius: 50,
+    fontSize:20,
+    alignItems: 'center',
+    textAlign: 'center',
+    backgroundColor: '#383D6E'
+  },
     modal: {
       alignItems: 'center',
       padding: 20,
@@ -336,6 +372,11 @@ const styles = StyleSheet.create({
     },
     progress: {
     backgroundColor: '#272A49',
+    borderWidth:0,
+    borderRadius:50,
+  },
+      score: {
+    backgroundColor: 'crimson',
     borderWidth:0,
     borderRadius:50,
   },
