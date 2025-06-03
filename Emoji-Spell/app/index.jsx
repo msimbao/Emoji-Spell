@@ -216,7 +216,7 @@ export default function Index() {
           <Text style={styles.text}>Practice your spelling with Emojis!</Text>
           <Text style={styles.text}></Text>
 
-          <Picker
+          {/* <Picker
           selectedValue={10}
           style={[styles.picker,{fontSize:30,borderWidth:1,borderColor:'#fff'}]}
           itemStyle={styles.picker}
@@ -227,7 +227,7 @@ export default function Index() {
           <Picker.Item label="10" value="10" />
           <Picker.Item label="20" value="20" />
           <Picker.Item label="30" value="30" />
-        </Picker>
+        </Picker> */}
 
           <Button theme ="primary" label="EASY" onPress={easyQuiz} />
           <Button theme ="secondary" label="FAIR" onPress={fairQuiz} />
