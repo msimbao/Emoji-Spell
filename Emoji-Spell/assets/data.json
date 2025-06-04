@@ -1,4 +1,5 @@
-[ { "word": "happy", "emoji": "😊" },
+[ 
+    { "word": "happy", "emoji": "😊" },
   { "word": "sad", "emoji": "😢" },
   { "word": "angry", "emoji": "😠" },
   { "word": "love", "emoji": "❤️" },

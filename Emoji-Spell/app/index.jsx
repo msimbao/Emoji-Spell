@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 import * as Speech from 'expo-speech';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
-import {Picker} from "@react-native-picker/picker";
+// import {Picker} from "@react-native-picker/picker";
 
 
 const quiz = require('@/assets/quiz.json');
@@ -17,7 +17,7 @@ export default function Index() {
     const [currentEmoji, setCurrentEmoji] = useState();
     const [currentWord, setCurrentWord] = useState();
     const [text, onChangeText] = useState('');
-    const [total, setTotal] = useState(10);
+    const [total, setTotal] = useState(12);
     const [data, setData] = useState(quiz['easy']);
 
     const [isCorrectOrWrongEmoji, setIsCorrectOrWrongEmoji] = useState('');
@@ -40,7 +40,7 @@ export default function Index() {
   // Function to generate a random number between 1 and 100
     const generateRandomNumber = () => {
       const min = 0; // Minimum value
-      const max = 60; // Maximum value
+      const max = 175; // Maximum value
       // Generate random number in the range [min, max]
       const number = Math.floor(Math.random() * (max - min + 1)) + min;
       return number
@@ -173,6 +173,7 @@ export default function Index() {
 
         if (!intList.includes(randomnumber)) intList.push(randomnumber)
       }
+    // console.log(intList)
 
     }
 
@@ -322,7 +323,7 @@ const styles = StyleSheet.create({
   },
     correct: {
     color: '#7CE97C',
-    fontSize: 35,
+    fontSize: 25,
   },
   input: {
     height: 60,
