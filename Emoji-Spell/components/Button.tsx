@@ -50,7 +50,7 @@ export default function Button({ label, theme, onPress }: Props) {
           { borderWidth: 1, borderColor: '#fff', borderRadius: 50 },
         ]}>
         <Pressable style={[styles.button, { backgroundColor: '#272A49' }]} onPress={onPress}>
-          <FontAwesome name="play" size={18} color="#fff" style={styles.buttonIcon} />
+          {/* <FontAwesome name="play" size={18} color="#fff" style={styles.buttonIcon} /> */}
           <Text style={[styles.buttonLabel, { color: '#fff' }]}>{label}</Text>
         </Pressable>
       </View>
@@ -61,7 +61,7 @@ export default function Button({ label, theme, onPress }: Props) {
           // { borderWidth: 4, borderColor: '#333', borderRadius: 18 },
         ]}>
         <Pressable style={[styles.button, { backgroundColor: '#272A49' }]} onPress={onPress}>
-          <FontAwesome name="play" size={18} color="#fff" style={styles.buttonIcon} />
+          {/* <FontAwesome name="play" size={18} color="#fff" style={styles.buttonIcon} /> */}
           <Text style={[styles.buttonLabel, { color: '#fff' }]}>{label}</Text>
         </Pressable>
       </View>

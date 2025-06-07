@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TextInput } from 'react-native';
 import * as Progress from 'react-native-progress';
 import { useState, useEffect } from 'react';
 import Modal from 'react-native-modal';
@@ -6,8 +6,10 @@ import Button from '@/components/Button';
 import * as Speech from 'expo-speech';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
-// import {Picker} from "@react-native-picker/picker";
+import { getScores } from '../utils/scoreTracker';
+import { saveScore } from '../utils/scoreTracker';
 
+// import {Picker} from "@react-native-picker/picker";
 
 const quiz = require('@/assets/quiz.json');
 
@@ -18,7 +20,9 @@ export default function Index() {
     const [currentWord, setCurrentWord] = useState();
     const [text, onChangeText] = useState('');
     const [total, setTotal] = useState(12);
+    const [difficulty, setDifficulty] = useState('easy')
     const [data, setData] = useState(quiz['easy']);
+    const [score, setScore] = useState(0);
 
     const [isCorrectOrWrongEmoji, setIsCorrectOrWrongEmoji] = useState('');
     const [isCorrectOrWrongWord, setIsCorrectOrWrongWord] = useState('');
@@ -28,14 +32,52 @@ export default function Index() {
     const [lastWord, setLastWord] = useState('');
     const [intList, setIntList] = useState([]);
 
+    const [scores, setScores] = useState([]);
 
+    
     const [currentRate, setcurrentRate] = useState(0.2);
-      const [showStartScreen, setshowStartScreen] = useState(true);
+    const [showStartScreen, setshowStartScreen] = useState(true);
     const [showEndScreen, setShowEndScreen] = useState(false);
+    const [showHistory, setShowHistory] = useState(false);
 
     useEffect(() => {
-    setup
+    setup()
+
+    fetchScores();
     }, []);
+
+    const fetchScores = async () => {
+      const data = await getScores();
+      setScores(data.reverse()); // show most recent first
+    };
+    const renderItem = ({ item }) => (
+    <View >
+
+      {(item.grade == 'easy') ? (
+        <View style={[styles.scoreCard,styles.easyScoreCard]}>
+      <Text style={styles.scoreTitle}>{item.grade.toUpperCase()} </Text>
+      <Progress.Bar style={styles.scoreProgress} progress={item.score/(item.total-1)} color={'lightgreen'} width={250} height={20}/>
+      <Text style={styles.scoreText}>Score: {item.score} / {item.total}</Text>
+      <Text style={styles.scoreDate}>Date: {new Date(item.date).toLocaleString()}</Text>
+        </View>
+      ) : (item.grade == 'fair') ? (
+                <View style={[styles.scoreCard,styles.fairScoreCard]}>
+      <Text style={styles.scoreTitle}>{item.grade.toUpperCase()} </Text>
+      <Progress.Bar style={styles.scoreProgress} progress={item.score/(item.total-1)} color={'lightgreen'} width={250} height={20}/>
+      <Text style={styles.scoreText}>Score: {item.score} / {item.total}</Text>
+      <Text style={styles.scoreDate}>Date: {new Date(item.date).toLocaleString()}</Text>
+        </View>
+      ) : (
+          <View style={[styles.scoreCard,styles.hardScoreCard]}>
+      <Text style={styles.scoreTitle}>{item.grade.toUpperCase()} </Text>
+      <Progress.Bar style={styles.scoreProgress} progress={item.score/(item.total-1)} color={'lightgreen'} width={250} height={20}/>
+      <Text style={styles.scoreText}>Score: {item.score} / {item.total}</Text>
+      <Text style={styles.scoreDate}>Date: {new Date(item.date).toLocaleString()}</Text>
+        </View>
+      )}
+
+    </View>
+  );
 
   // Function to generate a random number between 1 and 100
     const generateRandomNumber = () => {
@@ -79,6 +121,12 @@ export default function Index() {
         playCurrentWord()
       } else {
         setShowEndScreen(true)
+
+        saveScore({
+            grade: difficulty,
+            score: numberCorrect,
+            total: 12,
+          });
 
         if ((numberCorrect/total) > 0.7){
           playFinalSound(true)
@@ -127,6 +175,7 @@ export default function Index() {
         setshowStartScreen(false);
         playCurrentWord()
         setData(quiz['easy'])
+        setDifficulty('easy')
         setup()
     }
 
@@ -134,6 +183,7 @@ export default function Index() {
         setshowStartScreen(false);
         playCurrentWord()
         setData(quiz['fair'])
+        setDifficulty('fair')
         setup()
     }
 
@@ -141,7 +191,18 @@ export default function Index() {
         setshowStartScreen(false);
         playCurrentWord()
         setData(quiz['hard'])
+        setDifficulty('hard')
         setup()
+    }
+
+    const openHistory = () => {
+        setShowHistory(true);
+                fetchScores();
+
+    }
+  
+    const closeHistory = () => {
+        setShowHistory(false);
     }
 
     const setup = () => {
@@ -163,6 +224,8 @@ export default function Index() {
         setCurrentIndex(0)
         setshowStartScreen(true);
         onChangeText('')
+
+
 
     }
 
@@ -233,6 +296,8 @@ export default function Index() {
           <Button theme ="primary" label="EASY" onPress={easyQuiz} />
           <Button theme ="secondary" label="FAIR" onPress={fairQuiz} />
           <Button theme= "tertiary" label="HARD" onPress={hardQuiz} />
+          <Button label="HISTORY" onPress={openHistory} />
+
 
         </View>
       ) : (
@@ -257,6 +322,26 @@ export default function Index() {
 
         </View>
       )}
+
+      <Modal isVisible={showHistory}>
+        <View style={styles.modal}>
+
+        <Text style={styles.header}>My Scores</Text>
+                <Button theme="quaternary" label="CLOSE" onPress={closeHistory} />
+        <Text style={styles.text}></Text>
+
+      {scores.length === 0 ? (
+        <Text style={styles.emptyText}>No scores yet. Try a quiz!</Text>
+      ) : (
+        <FlatList
+          data={scores}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+        />
+        )}
+
+        </View>
+      </Modal>
 
       <Modal isVisible={showModal}>
         <View style={styles.modal}>
@@ -388,4 +473,33 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
   },
+
+    header: { color:'#fff', fontSize: 50, fontWeight: 'bold', marginTop: 35,marginBottom: 15 },
+    scoreCard:{
+    borderRightWidth: 30,
+    padding: 20,
+    // borderRadius: 10,
+    marginBottom: 10,
+    backgroundColor: 'black'
+    },
+    easyScoreCard: {
+    borderRightColor: '#ff66a1',
+  },
+    fairScoreCard: {
+    borderRightColor: '#3e80f1',
+  },
+    hardScoreCard: {
+    borderColor: '#ed6b73',
+  },
+    scoreProgress: {
+    backgroundColor: 'red',
+    borderWidth:0,
+    borderRadius:10,
+  },
+  scoreTitle: {fontWeight:'bold', color:'#fff',textAlign: 'left', marginTop: 5, marginBottom: 10, fontSize: 25 },
+  scoreText: { color:'#fff',textAlign: 'right', marginTop: 5, fontSize: 16 },
+  scoreDate: { color:'#fff',textAlign: 'right', marginTop: 5, fontSize: 12 },
+
+  emptyText: { color:'#fff',textAlign: 'center', marginTop: 5, fontSize: 16 }
+
 });
